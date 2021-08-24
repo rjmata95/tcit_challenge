@@ -1,5 +1,4 @@
 const success = (res, message, status) => {
-  //   console.log(`[procedure succeeded]`);
   res.status(status || 200).send({
     error: "",
     response: message,

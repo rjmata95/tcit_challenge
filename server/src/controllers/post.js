@@ -3,7 +3,6 @@ const { generateQueryFilter } = require("../utils/generateQueryFilter");
 const response = require("../response");
 const { errorResponse } = require("../utils/responses");
 const getPosts = async ({ query }, res) => {
-  // const { query } = req;
   const filter = generateQueryFilter(query);
   try {
     const result = await Post.findAll(filter);
@@ -14,9 +13,6 @@ const getPosts = async ({ query }, res) => {
 };
 
 const getPost = async ({ params: { id } }, res) => {
-  // const {
-  //   params: { id },
-  // } = req;
   try {
     const result = await Post.findByPk(id);
     response.success(res, result, 200);
@@ -26,10 +22,7 @@ const getPost = async ({ params: { id } }, res) => {
 };
 
 const createPost = async ({ body }, res) => {
-  // const { body } = req;
   try {
-    // const instance = Post.build(body);
-    // const result = await instance.save();
     const result = await Post.create(body);
     response.success(res, result, 201);
   } catch (error) {
@@ -38,9 +31,6 @@ const createPost = async ({ body }, res) => {
 };
 
 const deletePost = async ({ params: { id } }, res) => {
-  // const {
-  //   params: { id },
-  // } = req;
   try {
     const result = await Post.destroy({
       where: {
