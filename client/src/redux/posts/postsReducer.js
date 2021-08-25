@@ -18,6 +18,7 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         data: [...state.data, ...payload],
+        loading: false,
       };
     case DELETE_POST:
       return {

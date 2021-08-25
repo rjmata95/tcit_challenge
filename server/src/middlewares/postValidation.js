@@ -6,12 +6,13 @@ const { notFoundResponse } = require("../utils/responses");
 
 const validatePostSchema = async (req, res, next) => {
   const { body } = req;
+  console.log(body);
   try {
     const validatedBody = await postSchema.validate(body);
     req.body = validatedBody;
     next();
-  } catch ({ errors }) {
-    response.error(res, errors);
+  } catch (error) {
+    response.error(res, error.errors, 400, "Error in validation");
   }
 };
 const validatePostId = async ({ params: { id } }, res, next) => {

@@ -8,7 +8,7 @@ const {
 
 router.get("/", controller.getPosts);
 router.get("/:id", registryExists, controller.getPost);
-router.post("/", validatePostSchema, controller.createPost);
+router.post("/", controller.createPost);
 router.delete("/:id", registryExists, controller.deletePost);
 
 module.exports = router;

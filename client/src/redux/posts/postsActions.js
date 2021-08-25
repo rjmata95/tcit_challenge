@@ -63,3 +63,21 @@ export const deletePost = (id) => {
       });
   };
 };
+
+export const createPost = (post) => {
+  return (dispatch) => {
+    dispatch(postRequest());
+    // console.log(post)
+    axios
+      .post(`http://localhost:5000/post`, post)
+      .then(({ data }) => {
+        console.log(data);
+        dispatch(fetchPosts());
+        // dispatch(addPost(data.response));
+      })
+      .catch(({ message }) => {
+        dispatch(postRequestFailure(message));
+      });
+    // dispatch(addPost())
+  };
+};
