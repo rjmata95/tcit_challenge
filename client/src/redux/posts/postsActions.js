@@ -5,6 +5,7 @@ import {
   FETCH_POST_SUCCESS,
   FETCH_POST_FAILURE,
 } from "./postsTypes";
+import axios from "axios";
 
 export const addPost = (post) => ({
   type: ADD_POST,

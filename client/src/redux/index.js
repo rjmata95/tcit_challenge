@@ -1,1 +1,2 @@
-export { fetchPosts } from "./posts/postsActions";
+export * from "./posts/postsActions";
+export { increaseCount, decreaseCount } from "./count/countActions";

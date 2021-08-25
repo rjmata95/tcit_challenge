@@ -1,6 +1,0 @@
-export const ADD_POST = "ADD_POST";
-export const DELETE_POST = "DELETE_POST";
-export const SEARCH_POST = "SEARCH_POST";
-export const FETCH_POST_REQUEST = "FETCH_POST_REQUEST";
-export const FETCH_POST_SUCCESS = "FETCH_POST_SUCESS";
-export const FETCH_POST_FAILURE = "FETCH_POST_FAILURE";

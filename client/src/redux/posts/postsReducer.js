@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   loading: false,
-  posts: [],
+  data: [],
   error: "",
 };
 
@@ -17,12 +17,12 @@ const reducer = (state = initialState, { type, payload }) => {
     case ADD_POST:
       return {
         ...state,
-        posts: [...state.posts, ...payload],
+        data: [...state.data, ...payload],
       };
     case DELETE_POST:
       return {
         ...state,
-        posts: state.posts.filter((id) => id !== payload),
+        data: state.data.filter((id) => id !== payload),
       };
     case FETCH_POST_REQUEST:
       return {
@@ -33,7 +33,7 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        posts: [...payload],
+        data: [...payload],
       };
     case FETCH_POST_FAILURE:
       return {
@@ -42,7 +42,7 @@ const reducer = (state = initialState, { type, payload }) => {
         error: payload,
       };
     // case SEARCH_POST:
-    //   return { ...state, posts: state.posts payload };
+    //   return { ...state, data: state.data payload };
     default:
       return state;
   }
