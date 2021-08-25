@@ -1,12 +1,11 @@
 const response = require("../response");
-const postSchema = require("../schemas/post");
+const {postSchema} = require("../schemas/post");
 const Post = require("../models/post");
 const { generateStrictQueryFilter } = require("../utils/generateQueryFilter");
 const { notFoundResponse } = require("../utils/responses");
 
 const validatePostSchema = async (req, res, next) => {
   const { body } = req;
-  console.log(body);
   try {
     const validatedBody = await postSchema.validate(body);
     req.body = validatedBody;

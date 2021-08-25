@@ -7,6 +7,8 @@ import {
 } from "./postsTypes";
 import axios from "axios";
 
+const { REACT_APP_API, REACT_APP_POST_URL } = process.env;
+
 export const addPost = (post) => ({
   type: ADD_POST,
   payload: post,
@@ -35,7 +37,7 @@ export const fetchPosts = () => {
   return (dispatch) => {
     dispatch(postRequest());
     axios
-      .get("http://localhost:5000/post")
+      .get(`${REACT_APP_API}${REACT_APP_POST_URL}`)
       .then(({ data }) => {
         //response.data has the fetched data
 
@@ -52,7 +54,7 @@ export const deletePost = (id) => {
   return (dispatch) => {
     dispatch(postRequest());
     axios
-      .delete(`http://localhost:5000/post/${id}`, {})
+      .delete(`${REACT_APP_API}${REACT_APP_POST_URL}/${id}`, {})
       .then(({ data }) => {
         if (data.response !== 1) throw { message: "Registry not Found" };
 
@@ -67,11 +69,9 @@ export const deletePost = (id) => {
 export const createPost = (post) => {
   return (dispatch) => {
     dispatch(postRequest());
-    // console.log(post)
     axios
-      .post(`http://localhost:5000/post`, post)
+      .post(`${REACT_APP_API}${REACT_APP_POST_URL}`, post)
       .then(({ data }) => {
-        console.log(data);
         dispatch(fetchPosts());
         // dispatch(addPost(data.response));
       })
