@@ -1,4 +1,4 @@
-import { styled } from "@material-ui/core";
+import { styled, Typography, withStyles } from "@material-ui/core";
 export const Background = styled((props) => <div {...props} />)(
   ({ theme }) => ({
     display: "flex",
@@ -7,3 +7,7 @@ export const Background = styled((props) => <div {...props} />)(
     backgroundColor: theme.palette.background.secondary,
   })
 );
+
+// export const TableTypography = styled((props) => (
+//   <Typography variant="h6" color="textSecondary" {...props} />
+// ));

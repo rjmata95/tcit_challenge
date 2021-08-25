@@ -1,36 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
-  TableContainer,
   Table,
   TableHead,
   TableBody,
-  TableCell,
   TableRow,
+  Button,
 } from "@material-ui/core";
-const DataViewer = ({ columns, rows }) => {
+import { TableTypography, TableHeader, Container, TableField } from "./styles";
+import Loading from "../Loading";
+
+const DataViewer = ({ dataColumns, data, loading = false, actions }) => {
+  // const { data, loading, error } = posts;
+  // columns = Object.keys(data[0]).filter((key) => key !== "id");
+
   return (
-    <TableContainer>
+    <Container>
       <Table stickyHeader aria-label="sticky table">
-        <TableHead>
-          <TableRow>
-            {columns.map(({ id, label }) => (
-              <TableCell key={id} align={"center"}>
-                {label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(({ id, ...values }, i) => (
-            <TableRow key={id}>
-              {Object.keys(values).map((key) => (
-                <TableCell>{values[key]}</TableCell>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <TableHead>
+              <TableRow>
+                {dataColumns.map((key) => (
+                  <TableHeader key={key} align={"center"}>
+                    <TableTypography>{key}</TableTypography>
+                  </TableHeader>
+                ))}
+                <TableHeader>
+                  <TableTypography>Action</TableTypography>
+                </TableHeader>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map(({ id, ...values }, i) => (
+                <TableRow key={id}>
+                  {dataColumns.map((key) => (
+                    <TableField>{values[key]}</TableField>
+                  ))}
+                  {actions.map((action) => {
+                    const label = Object.keys(action);
+                    return (
+                      <TableField key={label}>
+                        <Button onClick={() => action[label](id)}>
+                          {label}
+                        </Button>
+                      </TableField>
+                    );
+                  })}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
+            </TableBody>
+          </>
+        )}
       </Table>
-    </TableContainer>
+    </Container>
   );
 };
 

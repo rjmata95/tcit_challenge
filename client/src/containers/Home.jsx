@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
 import DataViewer from "../components/DataViewer";
 import Loading from "../components/Loading";
-import { fetchPosts } from "../redux";
+import { fetchPosts, deletePost } from "../redux";
 import Counter from "../components/Counter";
 
 const mapStateToProps = ({ posts, count }) => {
@@ -15,10 +15,11 @@ const mapStateToProps = ({ posts, count }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
+    deleteData: (payload) => dispatch(deletePost(payload)),
   };
 };
 
-const Home = ({ posts, count, fetchPosts }) => {
+const Home = ({ posts, count, fetchPosts, deleteData }) => {
   const { loading, error, data } = posts;
   useEffect(() => {
     fetchPosts();
@@ -29,6 +30,7 @@ const Home = ({ posts, count, fetchPosts }) => {
       <Typography variant="h1" align="center" color="secondary">
         Home!
       </Typography>
+      {/* 
       {loading ? (
         <Loading />
       ) : error ? (
@@ -38,14 +40,15 @@ const Home = ({ posts, count, fetchPosts }) => {
       ) : (
         <>
           <Counter />
-          {
-            /* <DataViewer dataOld={dataOld} /> */
-            data.map((item, i) => (
-              <div key={item.id}>{item.description}</div>
-            ))
-          }
+          <DataViewer data={data} />
         </>
-      )}
+      )} */}
+      <DataViewer
+        dataColumns={["name", "description"]}
+        data={data}
+        loading={loading}
+        actions={[{ Delete: deleteData }]}
+      />
     </>
   );
 };

@@ -1,9 +1,9 @@
 import {
   ADD_POST,
   DELETE_POST,
-  FETCH_POST_REQUEST,
+  POST_REQUEST,
   FETCH_POST_SUCCESS,
-  FETCH_POST_FAILURE,
+  POST_REQUEST_FAILURE,
 } from "./postsTypes";
 import axios from "axios";
 
@@ -12,13 +12,13 @@ export const addPost = (post) => ({
   payload: post,
 });
 
-export const deletePost = (postId) => ({
+export const confirmDeletion = (id) => ({
   type: DELETE_POST,
-  payload: postId,
+  payload: id,
 });
 
-export const fetchPostFromAPI = () => ({
-  type: FETCH_POST_REQUEST,
+export const postRequest = () => ({
+  type: POST_REQUEST,
 });
 
 export const fetchPostSuccess = (posts) => ({
@@ -26,24 +26,40 @@ export const fetchPostSuccess = (posts) => ({
   payload: posts,
 });
 
-export const fetchPostFailure = (error) => ({
-  type: FETCH_POST_FAILURE,
+export const postRequestFailure = (error) => ({
+  type: POST_REQUEST_FAILURE,
   payload: error,
 });
 
 export const fetchPosts = () => {
   return (dispatch) => {
-    dispatch(fetchPostFromAPI());
+    dispatch(postRequest());
     axios
-      .get("MOCK_DATA.json")
+      .get("http://localhost:5000/post")
       .then(({ data }) => {
         //response.data has the fetched data
 
-        dispatch(fetchPostSuccess(data));
+        dispatch(fetchPostSuccess(data.response));
       })
       .catch(({ message }) => {
         // error.message has the error
-        dispatch(fetchPostFailure());
+        dispatch(postRequestFailure(message));
+      });
+  };
+};
+
+export const deletePost = (id) => {
+  return (dispatch) => {
+    dispatch(postRequest());
+    axios
+      .delete(`http://localhost:5000/post/${id}`, {})
+      .then(({ data }) => {
+        if (data.response !== 1) throw { message: "Registry not Found" };
+
+        dispatch(confirmDeletion(id));
+      })
+      .catch(({ message }) => {
+        dispatch(postRequestFailure(message));
       });
   };
 };

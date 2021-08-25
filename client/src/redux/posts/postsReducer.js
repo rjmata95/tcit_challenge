@@ -1,13 +1,13 @@
 import {
   ADD_POST,
   DELETE_POST,
-  FETCH_POST_REQUEST,
+  POST_REQUEST,
   FETCH_POST_SUCCESS,
-  FETCH_POST_FAILURE,
+  POST_REQUEST_FAILURE,
 } from "./postsTypes";
 
 const initialState = {
-  loading: false,
+  loading: true,
   data: [],
   error: "",
 };
@@ -22,9 +22,10 @@ const reducer = (state = initialState, { type, payload }) => {
     case DELETE_POST:
       return {
         ...state,
-        data: state.data.filter((id) => id !== payload),
+        data: state.data.filter(({ id }) => id !== payload),
+        loading: false,
       };
-    case FETCH_POST_REQUEST:
+    case POST_REQUEST:
       return {
         ...state,
         loading: true,
@@ -35,7 +36,7 @@ const reducer = (state = initialState, { type, payload }) => {
         loading: false,
         data: [...payload],
       };
-    case FETCH_POST_FAILURE:
+    case POST_REQUEST_FAILURE:
       return {
         ...state,
         loading: false,
