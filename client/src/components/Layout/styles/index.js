@@ -1,4 +1,4 @@
-import { styled, Typography, withStyles } from "@material-ui/core";
+import { styled } from "@material-ui/core";
 export const Background = styled((props) => <div {...props} />)(
   ({ theme }) => ({
     display: "flex",

@@ -4,7 +4,7 @@ import { validationSchema, initialValues } from "../../schemas/post";
 import { Grid } from "@material-ui/core";
 import Textfield from "./Textfield";
 import Button from "./Button";
-import { Container } from "./styles";
+import { Container } from "../../styles";
 
 const FormData = ({ onSubmit, submitBtn, loading }) => {
   return (

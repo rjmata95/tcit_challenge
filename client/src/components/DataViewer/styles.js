@@ -3,7 +3,6 @@ import {
   TableContainer,
   Typography,
   styled,
-  Table,
 } from "@material-ui/core";
 
 export const TableHeader = (props) => (

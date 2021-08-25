@@ -1,28 +1,6 @@
-import { TextField, withStyles } from "@material-ui/core";
+// import { TextField, withStyles } from "@material-ui/core";
 import { useField } from "formik";
-
-const InputField = withStyles((theme) => ({
-  root: {
-    "& label.Mui-focused": {
-      color: theme.palette.secondary.main,
-    },
-    "& label": {
-      color: theme.palette.secondary.main,
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: theme.palette.secondary.main,
-      },
-      "&:hover fieldset": {
-        borderColor: theme.palette.secondary.dark,
-      },
-      "&.Mui-focused fieldset": {
-        color: theme.palette.secondary.main,
-        borderColor: theme.palette.secondary.light,
-      },
-    },
-  },
-}))(TextField);
+import { InputField } from "../../../styles";
 
 const TextfieldWrapper = ({ name, ...otherProps }) => {
   const [field, meta] = useField(name);

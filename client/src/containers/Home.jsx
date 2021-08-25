@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
 import DataViewer from "../components/DataViewer";
 import FormData from "../components/FormData";
 import { fetchPosts, deletePost, createPost } from "../redux";
+import Search from "../components/Search";
 
 const mapStateToProps = ({ posts }) => {
   return {
@@ -20,18 +21,35 @@ const mapDispatchToProps = (dispatch) => {
 
 const Home = ({ posts, fetchPosts, deleteData, createPost }) => {
   const { loading, error, data } = posts;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   useEffect(() => {
     fetchPosts();
   }, []);
-  const handleSubmit = (values, resetForm) => {
+  useEffect(() => {
+    setSearchTerm("");
+    console.log("hola");
+  }, [loading]);
+  const handleSubmit = async (values, resetForm) => {
     try {
-      console.log(values);
-      createPost(values);
+      await createPost(values);
       resetForm({ values: "" });
-      // return cb();
     } catch (error) {
-      alert("Something went wrong, try again");
       console.log(error);
+    }
+  };
+  const searchHandler = (searchTerm) => {
+    setSearchTerm(searchTerm);
+
+    if (searchTerm !== "") {
+      const filter = searchTerm.toLowerCase();
+      const filteredData = data.filter((registry) =>
+        registry.name.toLowerCase().includes(filter)
+      );
+      setSearchResults(filteredData);
+    } else {
+      setSearchResults(data);
     }
   };
   return (
@@ -39,9 +57,10 @@ const Home = ({ posts, fetchPosts, deleteData, createPost }) => {
       <Typography variant="h1" align="center" color="secondary">
         Home!
       </Typography>
+      <Search searchTerm={searchTerm} searchHandler={searchHandler} />
       <DataViewer
         dataColumns={["name", "description"]}
-        data={data}
+        data={searchTerm.length < 1 ? data : searchResults}
         loading={loading}
         actions={[{ Delete: deleteData }]}
       />

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Table,
   TableHead,
@@ -15,45 +15,41 @@ const DataViewer = ({ dataColumns, data, loading = false, actions }) => {
 
   return (
     <Container>
-      <Table stickyHeader aria-label="sticky table">
-        {loading ? (
-          <Loading />
-        ) : (
-          <>
-            <TableHead>
-              <TableRow>
-                {dataColumns.map((key) => (
-                  <TableHeader key={key} align={"center"}>
-                    <TableTypography>{key}</TableTypography>
-                  </TableHeader>
-                ))}
-                <TableHeader>
-                  <TableTypography>Action</TableTypography>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {dataColumns.map((key) => (
+                <TableHeader key={key} align={"center"}>
+                  <TableTypography>{key}</TableTypography>
                 </TableHeader>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map(({ id, ...values }, i) => (
-                <TableRow key={id}>
-                  {dataColumns.map((key) => (
-                    <TableField>{values[key]}</TableField>
-                  ))}
-                  {actions.map((action) => {
-                    const label = Object.keys(action);
-                    return (
-                      <TableField key={label}>
-                        <Button onClick={() => action[label](id)}>
-                          {label}
-                        </Button>
-                      </TableField>
-                    );
-                  })}
-                </TableRow>
               ))}
-            </TableBody>
-          </>
-        )}
-      </Table>
+              <TableHeader>
+                <TableTypography>Action</TableTypography>
+              </TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map(({ id, ...values }) => (
+              <TableRow key={id}>
+                {dataColumns.map((key) => (
+                  <TableField key={key}>{values[key]}</TableField>
+                ))}
+                {actions.map((action) => {
+                  const label = Object.keys(action);
+                  return (
+                    <TableField key={label}>
+                      <Button onClick={() => action[label](id)}>{label}</Button>
+                    </TableField>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </Container>
   );
 };
