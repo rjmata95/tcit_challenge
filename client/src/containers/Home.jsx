@@ -1,26 +1,27 @@
-import { Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Typography } from "@material-ui/core";
 import DataViewer from "../components/DataViewer";
 import Loading from "../components/Loading";
+import { fetchPosts } from "../redux";
+import Counter from "../components/Counter";
 
-const Home = () => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+const mapStateToProps = ({ posts, count }) => {
+  return {
+    posts: posts,
+    count: count,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchPosts: () => dispatch(fetchPosts()),
+  };
+};
+
+const Home = ({ posts, count, fetchPosts }) => {
+  const { loading, error, data } = posts;
   useEffect(() => {
-    fetch("MOCK_DATA.json")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setData(result);
-          setIsLoading(false);
-        },
-        (error) => {
-          setError(error);
-          setIsLoading(false);
-          console.log(error);
-        }
-      );
+    fetchPosts();
   }, []);
 
   return (
@@ -28,18 +29,19 @@ const Home = () => {
       <Typography variant="h1" align="center" color="secondary">
         Home!
       </Typography>
-      {isLoading ? (
+      {loading ? (
         <Loading />
       ) : error ? (
         <Typography variant="h6" color="primary">
-          Couldnt connect to Database
+          {error}
         </Typography>
       ) : (
         <>
+          <Counter />
           {
-            /* <DataViewer data={data} /> */
+            /* <DataViewer dataOld={dataOld} /> */
             data.map((item, i) => (
-              <div key={i}>{item.description}</div>
+              <div key={item.id}>{item.description}</div>
             ))
           }
         </>
@@ -48,4 +50,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
